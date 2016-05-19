@@ -23,13 +23,14 @@ db.userSchema.methods.comparePassword = function(attemptedPassword, callback) {
 
 var user = mongoose.model('user', db.userSchema);
 
+module.exports = user;
+
 
 // var insertUser = new user ({
 //   username: 'tony',
 //   password: 'mypaswword',
 // });
 
-// insertUser.hashPassword();
 
 // insertUser.save(function (err) {
 //   if (err) {
@@ -39,15 +40,15 @@ var user = mongoose.model('user', db.userSchema);
 //   db.db.close();
 // });
 
-// new user({username: 'tony'}).comparePasswordfind({ type: this.type }
-var username = 'tony';
-var password1 = 'mypaswword';
-var password2 = 'paswword';
+// // new user({username: 'tony'}).comparePasswordfind({ type: this.type }
+// var username = 'tony';
+// var password1 = 'mypaswword';
+// var password2 = 'paswword';
 
 
-user.find({username: username}, function(err, record) {
-  record[0].comparePassword(password2, function(val) {
-    console.log(val);
-  });
-});         
+// user.find({username: username}, function(err, record) {
+//   record[0].comparePassword(password2, function(val) {
+//     console.log(val);
+//   });
+// });         
 
