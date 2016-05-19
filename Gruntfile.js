@@ -3,6 +3,20 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
+      scripts: {
+        src: 'public/client/**/*.js',
+        dest: 'public/dist/js/scripts.js',
+      }
+    },
+
+    gitpush: {
+      server: {
+        options: {
+          remote: 'server', 
+          branch: 'master'
+        }
+      }
+
     },
 
     mochaTest: {
@@ -21,15 +35,23 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      scripts: {
+        src: 'public/client/**/*.js',
+        dest: 'public/dist/js/scripts.js',
+      }
     },
 
     eslint: {
       target: [
-        // Add list of files to lint here
+        'public/client/**/*.js'
       ]
     },
 
     cssmin: {
+      css: {
+        src: 'public/*.css',
+        dest: 'public/dist/css/style.css'
+      }
     },
 
     watch: {
@@ -53,6 +75,16 @@ module.exports = function(grunt) {
       prodServer: {
       }
     },
+
+    // run watch and nodemon at the same time
+    // https://scotch.io/tutorials/using-gruntjs-in-a-mean-stack-application
+    concurrent: {
+      options: {
+        logConcurrentOutput: true
+      },
+      tasks: ['nodemon', 'watch']
+    }   
+
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -63,9 +95,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-concurrent');
+  grunt.loadNpmTasks('grunt-git');
 
   grunt.registerTask('server-dev', function (target) {
-    grunt.task.run([ 'nodemon', 'watch' ]);
+    // grunt.task.run([ 'nodemon', 'watch' ]);
+    grunt.task.run([ 'concurrent' ]);
+
   });
 
   ////////////////////////////////////////////////////
@@ -81,15 +117,22 @@ module.exports = function(grunt) {
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
+      console.log("GOT TO PROD");
       // add your production server task here
+      grunt.task.run(['gitpush']);
     } else {
-      grunt.task.run([ 'server-dev' ]);
+      console.log("GOT TO EL");
+      //grunt.task.run([ 'server-dev' ]);
     }
   });
-
-  grunt.registerTask('deploy', [
-    // add your deploy tasks here
+  // difference between 102 and 79
+  grunt.registerTask('deploy', [ 
+    'eslint', 'test', 'upload' 
   ]);
 
+
+  grunt.registerTask('AJ', [ 
+    'upload' 
+  ]);
 
 };
