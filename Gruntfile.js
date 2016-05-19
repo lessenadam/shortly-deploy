@@ -122,7 +122,7 @@ module.exports = function(grunt) {
       grunt.task.run(['gitpush']);
     } else {
       console.log("GOT TO EL");
-      //grunt.task.run([ 'server-dev' ]);
+      grunt.task.run([ 'server-dev' ]);
     }
   });
   // difference between 102 and 79
