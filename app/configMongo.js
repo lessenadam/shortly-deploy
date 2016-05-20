@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var url = 'mongodb://localhost:27017/newTest';
+var url = 'mongodb://localhost:27017/test';
 
 mongoose.connect(url);
 
@@ -26,7 +26,7 @@ var userSchema = new Schema({
 var urlSchema = new Schema({
   url: {type: String, required: true}, 
   baseUrl: {type: String, required: true},
-  code: {type: String, required: true},
+  code: {type: String, required: false},
   title: {type: String, required: true},
   visits: {type: Number, required: true}
 },
@@ -38,6 +38,7 @@ var urlSchema = new Schema({
 
 exports.db = db;
 exports.userSchema = userSchema;
+exports.urlSchema = urlSchema;
 
 
 

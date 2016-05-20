@@ -4,14 +4,14 @@ var expect = require('chai').expect;
 var app = require('../server-config.js');
 
 var db = require('../app/config');
-var User = require('../app/models/user');
-var Link = require('../app/models/link');
+var User = require('../app/models/usersMongo');
+var Link = require('../app/models/linksMongo');
 
 /////////////////////////////////////////////////////
 // NOTE: these tests are designed for mongo!
 /////////////////////////////////////////////////////
 
-xdescribe('', function() {
+describe('', function() {
 
   beforeEach(function(done) {
     // Log out currently signed in user
@@ -20,9 +20,9 @@ xdescribe('', function() {
       .end(function(err, res) {
 
         // Delete objects from db so they can be created later for the test
-        Link.remove({url: 'http://www.roflzoo.com/'}).exec();
-        User.remove({username: 'Savannah'}).exec();
-        User.remove({username: 'Phillip'}).exec();
+        // Link.remove({url: 'http://www.roflzoo.com/'}).exec();
+        // User.remove({username: 'Savannah'}).exec();
+        // User.remove({username: 'Phillip'}).exec();
 
         done();
       });
@@ -179,10 +179,9 @@ xdescribe('', function() {
           'password': 'Svnh' })
         .expect(302)
         .expect(function() {
-          User.findOne({'username': 'Svnh'})
-            .exec(function(err, user) {
-              expect(user.username).to.equal('Svnh');
-            });
+          User.findOne({'username': 'Svnh'}, function(err, user) {
+            expect(user.username).to.equal('Svnh');
+          });
         })
         .end(done);
     });
